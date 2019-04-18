@@ -94,10 +94,5 @@
   moveSquare(keyA, '#1888ca');
   moveSquare(keyB, '#da115b');
 
-  var squares = document.querySelectorAll('.square');
-
-  if (squares.length >= 2) {
-  
-  }
 
 }())
