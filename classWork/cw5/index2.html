@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .users-list .user {
+            width: 300px;
+            float: left;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .users-list .user > h2 {
+            margin-top: 0;
+            text-transform: capitalize;
+            text-align: center;
+        }
+
+        .users-list .user > img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .users-list::after {
+            clear: both;
+        }
+
+        .users-list::after,
+        .users-list::before{
+            content: " ";
+            display: table;
+        }
+    </style>
+    
+    <div class="users-list" id="users"></div>
+
+    <script type="text/template" id="template_user">
+        <div class="user">
+            <h2 class="js_user_name"></h2>
+            <img src="" class="js_user_photo" alt="">
+        </div>
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script>
+        (function($) {
+            var $users = $('#users');
+            var template_user = $('#template_user').text();
+            function buildUsers(users) {
+                $(users).each(function(index, val) {
+                    var $user = $(template_user);
+                    console.log($user.find('.js_user_name'));
+                    $user.find('.js_user_name').text(val.name.first + ' ' + val.name.last);
+                    $user.find('.js_user_photo').attr('src', val.picture.large);
+                    $user.appendTo($users);
+                });
+            }
+
+
+            $.ajax({
+                url: 'https://randomuser.me/api/',
+                method: 'GET',
+                data: {
+                    results: 50,
+                    seed: 'test'
+                },
+                success: function(data) {
+                    console.log('Status OK');
+                    buildUsers(data.results);
+                },
+                error: function(e) {
+                    console.log('ajax error', e);
+                },
+                complete: function() {
+                    console.log('allways runned')
+                }
+            })
+
+            /* var jqxhr = $.getJSON('https://randomuser.me/api/?results=50', function(data) {
+                buildUsers(data.results);
+            }).done(function() {
+                console.log( "second success" );
+            })
+            .fail(function() {
+                console.log( "error" );
+            })
+            .always(function() {
+                console.log( "complete" );
+            });
+
+
+            jqxhr.complete(function() {
+                console.log( "second complete" );
+            }); */
+
+
+        }(jQuery))
+    </script>
+</body>
+</html>
