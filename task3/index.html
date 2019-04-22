@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    li {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="ingredients">
+    <h2 class="ingredients__head">Ingredients</h2>
+    <ul class="ingredients__list"></ul>
+  </div>
+    <div class="cart">
+      <h2 class="cart__head">Cart</h2>
+      <ul class="cart__list"></ul>
+    </div>
+
+    <script type="text/template" id="ingredients__item-template">
+      <li class="ingredients__item">
+        <button class="ingredients__add" type="button">+</button>
+        <span class="ingredients__name"></span>
+        <span class="ingredients__price"></span>
+      </li>
+    </script>
+    <script type="text/template" id="cart__item-template">
+      <li class="cart__item">
+        <button class="cart__remove" type="button">-</button>
+        <span class="cart__name"></span>
+        <span class="cart__price"></span>
+        <span>x</span>
+        <span class="cart__count"></span> 
+        <span>, result: </span>
+        <span class="cart__all-pice"></span> 
+      </li>
+    </script>
+    <script
+    src="https://code.jquery.com/jquery-3.4.0.min.js"
+    integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+    crossorigin="anonymous"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
