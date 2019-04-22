@@ -56,7 +56,6 @@
 
     if (cartArr) {
       $(cartArr).each(function(index, val) {
-        cartCheck(val);
         var $item = $($cartTmpl);
         $item.attr('data-id', val.id);
         $item.find('.cart__name').text(val.name);
@@ -77,10 +76,11 @@
     var elementText = $(this).siblings('.ingredients__name').text();
     $(ingrArr).each(function(index, val) {
       if (val.name === elementText) {
-        var exist = cartCheck(val);
-        if (!exist) {
+        // var exist = cartCheck(val);
+        // console.log(cartArr);
+        // if (!exist) {
           cartArr.push(val);
-        }
+        // }
       }
     });
     chengeApply();
@@ -96,18 +96,25 @@
     chengeApply();
   });
 
-  function cartCheck(item) {
-    $(cartArr).each(function(index, val) {
-        if(item.id === val.id) {
-          if (item.count) {
-            item.count++;
-            return true;
-          } else {
-            item.count = 1;
-            return false;
-          }
-        }
-    });
-  }
+  // function cartCheck(item) {
+  //   // $(cartArr).each(function(index, val) {
+  //   //     if(item.id === val.id) {
+  //   //       if (item.count) {
+  //   //         item.count++;
+  //   //         return true;
+  //   //       } else {
+  //   //         item.count = 1;
+  //   //         return false;
+  //   //       }
+  //   //     }
+  //   // });
+  //   $(cartArr).each(function(index, val) {
+  //     if (item === val) {
+  //       console.log('ITEM - ',item);
+  //       console.log('VAL - ',val);
+  //     }
+  //   });
+  //   console.log(cartArr);
+  // }
 
 }(jQuery))

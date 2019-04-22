@@ -15,7 +15,7 @@
     <ul id="cart"></ul>
 
     <div id="counter"></div>
-    <div id="result"></div>
+    <div id="total"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script>
@@ -51,7 +51,7 @@
                     counter += +cart[index];
                 }
                 $('#counter').text('All: ' + counter);
-                $('#result').text('Result: ' + resultCount(cart) + '$');
+                $('#total').text('Total: ' + totalCount(cart) + '$');
             };
 
             var build_cart = function() {
@@ -100,12 +100,12 @@
                 save_cart();
             });
 
-            function resultCount(obj) {
+            function totalCount(obj) {
                 var allPrice = 0;
                 $.each(obj, function(val, i) {
-                    console.log(obj)
                     allPrice = allPrice + (products[val].price * i);
                 });
+                console.log(allPrice);
                 return allPrice;
             }
             
