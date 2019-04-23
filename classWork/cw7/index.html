@@ -11,7 +11,7 @@
     <div class="catalog">
       <ul>
         <li v-for="(item, key) in ingrArr">
-          <span class="catalog__name">{{ item.name }}</span> - 
+          <span class="catalog__name" >{{ item.name }}</span> - 
           <span class="catalog__price">{{ item.price }}</span>
           <button type="button" @click="add(key, item)">+</button>
         </li>

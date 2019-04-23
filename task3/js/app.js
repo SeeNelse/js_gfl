@@ -41,11 +41,13 @@
   ingrArr = JSON.parse(localStorage.getItem('ingr') || JSON.stringify(ingrArrTemp));
   cartArr = JSON.parse(localStorage.getItem('cart') || '{}' );
 
+
   function save() {
     localStorage.setItem('ingr', JSON.stringify(ingrArr));
     localStorage.setItem('cart', JSON.stringify(cartArr));
     
   }
+  
 
   function render() {
     
@@ -60,6 +62,7 @@
         $('.ingredients__list').append($item);
       });
     }
+
 
     if (!$.isEmptyObject(cartArr)) {
       $.map(cartArr, function(value, no){
@@ -78,11 +81,13 @@
     totalPrice();
   }
 
+
   function chengeApply() {
     save();
     render();
   }
   chengeApply();
+
 
   function totalPrice() {
     var total = 0;
@@ -91,20 +96,19 @@
     });
     $('.cart__total').text(total);
   }
-  
+
 
   $('.ingredients__list').on('click', '.ingredients__add', function() {
     var currentEl = $(this).parent('.ingredients__item').attr('data-id');
-    if (cartArr) {
+    if (!Object.keys(cartArr).length) {
       $(ingrArr).each(function(index, val) {
-        if (!cartArr[val.id]) {
-          cartArr[val.id] = 0;
-        }
+        cartArr[val.id] = 0;
       });
     }
     cartArr[currentEl] = cartArr[currentEl] + 1;
     chengeApply();
   });
+
 
   $('.cart__list').on('click', '.cart__remove', function() {
     var currentEl = $(this).parent('.cart__item').attr('data-id');

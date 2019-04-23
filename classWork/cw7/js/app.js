@@ -1,5 +1,6 @@
 (function(){
-  ingredients = [
+
+  let ingredients = [
     {
       id: 1,
       name: 'milk',
@@ -47,9 +48,15 @@
       }
     },
     methods: {
-      add: function (key, item) {
-        
-
+      add: function (key, item) { 
+        let _this = this;
+        if (!Object.keys(this.cart).length) {
+          this.ingrArr.forEach(function(el) {
+            this.cartArr[el.id]
+          });
+          console.log(this.cartArr);
+        }
+        console.log(this.cartArr);
 
         // this.cart['id-'+item.id] ? this.cart['id-'+item.id]++ : this.cart['id-'+item.id] = 1;
         // for (key in this.cart) {
@@ -71,6 +78,5 @@
       }
     }
   });
-
 
 }())
