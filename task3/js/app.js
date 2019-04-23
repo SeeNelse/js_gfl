@@ -32,16 +32,24 @@
       name: 'banana',
       price: 600,
     },
+    {
+      id: 65,
+      name: 'teeeeeest',
+      price: 600,
+    },
   ];
+  // cartTemp = {};
   ingrArr = JSON.parse(localStorage.getItem('ingr') || JSON.stringify(ingrArrTemp));
-  cartArr = JSON.parse(localStorage.getItem('cart') || '[]');
+  cartArr = JSON.parse(localStorage.getItem('cart') || '{}' );
 
   function save() {
     localStorage.setItem('ingr', JSON.stringify(ingrArr));
     localStorage.setItem('cart', JSON.stringify(cartArr));
+    
   }
 
   function render() {
+    
     $('.ingredients__list').html('');
     $('.cart__list').html('');
     if (ingrArr) {
@@ -51,11 +59,13 @@
         $item.find('.ingredients__name').text(val.name);
         $item.find('.ingredients__price').text(val.price);
         $('.ingredients__list').append($item);
-      })
+      });
     }
 
-    if (cartArr) {
+    if ($.isEmptyObject(cartArr)) {
+      console.log(132);
       $(cartArr).each(function(index, val) {
+        console.log(cartArr , 'i', index, 'val' , val);
         var $item = $($cartTmpl);
         $item.attr('data-id', val.id);
         $item.find('.cart__name').text(val.name);
@@ -73,16 +83,59 @@
   
 
   $('.ingredients__list').on('click', '.ingredients__add', function() {
-    var elementText = $(this).siblings('.ingredients__name').text();
-    $(ingrArr).each(function(index, val) {
-      if (val.name === elementText) {
-        // var exist = cartCheck(val);
-        // console.log(cartArr);
-        // if (!exist) {
-          cartArr.push(val);
-        // }
-      }
-    });
+    var currentEl = $(this).parent('.ingredients__item').attr('data-id');
+    // if (cartTemp) {
+    //   $(ingrArr).each(function(index, val) {
+    //     if (!cartTemp[val.id]) {
+    //       cartTemp[val.id] = 0;
+    //     }
+    //   });
+    // }
+    // cartTemp[currentEl] = cartTemp[currentEl] + 1;
+    // console.log(cartTemp);
+
+
+
+
+
+
+
+    
+    // console.log(ingrArr);
+    
+    // var count = obj[currentEl];
+    // var obj = {
+    //   [currentEl]: 15,
+    // }
+    
+    // console.log(obj[currentEl]);
+    // obj[currentEl] = currentEl;
+    // console.log(obj);
+    // console.log(obj[currentEl]);
+
+
+
+
+
+
+
+
+    // ingrArr.map(function(elem){
+    //   if (elem.id == currentEl) {
+    //     console.log(elem);
+    //   }
+    // }).join(', ');
+
+    // var elementText = $(this).siblings('.ingredients__name').text();
+    // $(ingrArr).each(function(index, val) {
+    //   if (val.name === elementText) {
+    //     // var exist = cartCheck(val);
+    //     // console.log(cartArr);
+    //     // if (!exist) {
+    //       cartArr.push(val);
+    //     // }
+    //   }
+    // });
     chengeApply();
   });
 
