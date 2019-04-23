@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item, key) in todo" :key="key" >
+                <a href="https://google.com" @click="remove(key, $event)">X</a>
+                {{ item }}
+            </li>
+        </ul>
+        <div>
+            {{ count_items }}
+        </div>
+        <div>
+            <input type="text" v-model="message">
+            <button type="button" @click="add">Add</button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    message: 'Hello VUE',
+                    todo: JSON.parse(localStorage.todo || '[]')
+                }
+            },
+            methods: {
+                add: function() {
+                    this.todo.push(this.message);
+                    this.message = '';
+                },
+                remove: function(key, e) {
+                    this.todo.splice(key, 1);
+                }
+            },
+            computed: {
+                count_items: function() {
+                    return this.todo.length;
+                }
+            },
+            watch: {
+                todo: function(newVal) {
+                    localStorage.todo = JSON.stringify(newVal);
+                },
+                message: function(a, b) {
+                    console.log('new', a);
+                    console.log('old', b);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
