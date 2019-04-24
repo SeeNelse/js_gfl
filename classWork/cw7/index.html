@@ -10,16 +10,17 @@
   <div id="app">
     <div class="catalog">
       <ul>
-        <li v-for="(item, key) in ingrArr">
+        <li v-for="item in ingrArr" style="margin-bottom: 5px">
+          <button type="button" @click="add(item)">+</button>
           <span class="catalog__name" >{{ item.name }}</span> - 
           <span class="catalog__price">{{ item.price }}</span>
-          <button type="button" @click="add(key, item)">+</button>
         </li>
       </ul>
     </div>
     <div class="cart">
       <ul>
-        <li v-for="(item, key) in ingrArr" v-if="item.count">
+        <li v-for="item in ingrArr" v-if="item.count" style="margin-bottom: 5px">
+          <button type="button" @click="remove(item)">-</button>
           <span class="cart__name">{{ item.name }} x {{ item.count }}</span> - 
           <span class="cart__price">{{ item.price*item.count }}</span>
         </li>

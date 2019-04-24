@@ -51,10 +51,14 @@
       ingrArr: JSON.parse(localStorage.ingr || JSON.stringify(ingredients)),
     },
     methods: {
-      add: function (key, item) { 
+      add: function(item) { 
         item.count++;
         localStorage.ingr = JSON.stringify(this.ingrArr);
       },
+      remove: function(item) {
+        item.count--;
+        localStorage.ingr = JSON.stringify(this.ingrArr);
+      }
     },
     computed: {
       total__price: function() {
