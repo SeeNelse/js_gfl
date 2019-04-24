@@ -53,11 +53,9 @@
     methods: {
       add: function(item) { 
         item.count++;
-        localStorage.ingr = JSON.stringify(this.ingrArr);
       },
       remove: function(item) {
         item.count--;
-        localStorage.ingr = JSON.stringify(this.ingrArr);
       }
     },
     computed: {
@@ -69,6 +67,14 @@
           }
         });
         return total;
+      },
+    },
+    watch: {
+      ingrArr: {
+        handler: (newVal) => {
+          localStorage.ingr = JSON.stringify(newVal);
+        },
+        deep: true,
       },
     },
   });
