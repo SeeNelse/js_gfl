@@ -19,11 +19,12 @@
     </div>
     <div class="cart">
       <ul>
-        <li v-for="(item, key) in cartArr">
+        <li v-for="(item, key) in ingrArr" v-if="item.count">
           <span class="cart__name">{{ item.name }} x {{ item.count }}</span> - 
-          <span class="cart__price">{{ item.price }}</span>
+          <span class="cart__price">{{ item.price*item.count }}</span>
         </li>
       </ul>
+      <span class="cart__total">Total: {{ total__price }}</span>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
