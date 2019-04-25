@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <com-parent :test='alert'></com-parent>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+    Vue.config.devtools = true;
+
+
+    var State = new Vue({
+      data: () => {
+        return {
+
+        }
+      },
+    });
+
+    Vue.component('com-parent', {
+      template: `
+        <span>
+          Parent
+          <button type="button" @click="test('123123')">Run</button>
+          <br>
+          <com-child></com-child>
+        </span>
+      `,
+      props: {
+        test: {
+          type: Function,
+          default: () => {},
+        }
+      }
+    });
+
+    Vue.component('com-child', {
+      template: '<span>Child</span>',
+    })
+
+    var app = new Vue({
+      data: () => {
+        return {
+          message: 'wazap',
+          state: State.state,
+        }
+      },
+      methods: {
+        alert(data) {
+          alert(data);
+        },
+      }
+    });
+    app.$mount('#app');
+
+  </script>
+</body>
+</html>
