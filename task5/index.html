@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <style>
-    .calendar {
+    .calendar__wrapper {
       padding-top: 100px;
       width: 170px;
       margin: 0 auto;
@@ -25,14 +25,21 @@
       width: 60% !important;
       cursor: inherit !important;
     }
+
+    .calendar thead th:nth-last-child(1),.calendar thead th:nth-last-child(2) {
+      color: red;
+    }
   </style>
   <title>CW 10 - Calendar</title>
 </head>
 <body>
   <div id="app">
-    <month></month>
+    <comp-month :days-name='daysName' 
+                :current-month-name='currentMonthName()'
+                :days-of-month='daysOfMonth(currentYear(), currentMonth())'
+    ></comp-month>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
-  <script src="js/app.js"></script>
+  <script src="App.js"></script>
 </body>
 </html>
