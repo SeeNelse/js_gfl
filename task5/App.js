@@ -25,8 +25,9 @@
         <comp-day></comp-day>
       </tr>
     `,
+    props: ['daysOfMonth'],
     methods: {
-  
+      
     }
   });
 
@@ -45,7 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <comp-week ></comp-week>
+            <comp-week :days-of-month='daysOfMonth'></comp-week>
           </tbody>
         </table>
       </div>
@@ -53,7 +54,7 @@
     props: ['daysName', 'currentMonthName', 'daysOfMonth'],
     data: () => {
       return {
-        days_Of_Month: this.daysOfMonth,
+
       }
     },
     methods: {

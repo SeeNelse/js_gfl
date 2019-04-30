@@ -48,7 +48,7 @@
   new Vue({
     el: '#app',
     data: {
-      ingrArr: JSON.parse(localStorage.ingr || JSON.stringify(ingredients)),
+      ingrArr: JSON.parse(localStorage.ingrCw7 || JSON.stringify(ingredients)),
     },
     methods: {
       add: function(item) { 
@@ -72,7 +72,7 @@
     watch: {
       ingrArr: {
         handler: (newVal) => {
-          localStorage.ingr = JSON.stringify(newVal);
+          localStorage.ingrCw7 = JSON.stringify(newVal);
         },
         deep: true,
       },
