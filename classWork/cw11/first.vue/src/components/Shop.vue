@@ -20,18 +20,18 @@ export default {
     }
   },
   methods: {
-    add: function(item) {
-      item.count++;
-    },
+    add: function (item) {
+      item.count++
+    }
   },
   watch: {
     ingrArr: {
       handler: (newVal) => {
-        localStorage.ingrCw11 = JSON.stringify(newVal);
+        localStorage.ingrCw11 = JSON.stringify(newVal)
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>
 
