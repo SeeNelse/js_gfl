@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <style>
+    .calendar tr {
+      text-align: center;
+    }
+
+    .calendar td {
+      width: 20px;
+      height: 20px;
+    }
+
     .calendar__wrapper {
       padding-top: 100px;
       width: 170px;
@@ -26,17 +35,30 @@
       cursor: inherit !important;
     }
 
-    .calendar thead th:nth-last-child(1),.calendar thead th:nth-last-child(2) {
+    .calendar__grey {
+      color: #ccc;
+    }
+
+    .calendar thead th:nth-last-child(1),.calendar thead th:nth-last-child(2), .calendar__weekend {
       color: red;
+    }
+
+    .calendar__current {
+      border: 1px solid red;
+      border-radius: 50%;
+      background: red;
+      color: #fff;
     }
   </style>
   <title>CW 10 - Calendar</title>
 </head>
 <body>
   <div id="app">
-    <comp-month :days-name='daysName' 
-                :current-month-name='currentMonthName()'
-                :days-of-month='daysOfMonth(currentYear(), currentMonth())'
+    <comp-month 
+                :days-name='daysName' 
+                :current-month-name='currentMonthName'
+                :create-current-month='createCurrentMonth(currentYear, currentMonth)'
+                :current-year='currentYear'
     ></comp-month>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
