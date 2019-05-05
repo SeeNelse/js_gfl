@@ -54,14 +54,15 @@
 </head>
 <body>
   <div id="app">
-    <comp-month 
+    <comp-month @prev-month='slideMonth(false)'
+                @next-month='slideMonth(true)'
                 :days-name='daysName' 
-                :current-month-name='currentMonthName'
-                :create-current-month='createCurrentMonth(currentYear, currentMonth)'
-                :current-year='currentYear'
+                :current-month-name='currentMonthName()'
+                :current-year='getYear'
+                :create-current-month='currentMonth'
     ></comp-month>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
-  <script src="App.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

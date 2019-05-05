@@ -14,13 +14,10 @@
   Vue.component('comp-day', {
     template: `
       <td :class="{ 'calendar__grey': day.gray, 
-                    'calendar__current': day.currentDay, 
+                    'calendar__current': day.presentDay, 
                     'calendar__weekend' : day.weekend }">{{ day.number }}</td>
     `,
-    props: ['day'],
-    methods: {
-      
-    }
+    props: ['day']
   });
 
   Vue.component('comp-week', {
@@ -29,10 +26,7 @@
         <comp-day v-for='(day, index) in week' :key='index' :day='day'></comp-day>
       </tr>
     `,
-    props: ['createCurrentMonth', 'week'],
-    methods: {
-      
-    }
+    props: ['createCurrentMonth', 'week']
   });
 
   Vue.component('comp-month', {
@@ -41,7 +35,7 @@
         <div class="calendar__top">
           <span class="calendar__prev" @click="$emit('prev-month')"><<</span>
           <span class="calendar__mouth">{{ currentMonthName }} {{ currentYear }}</span>
-          <span class="calendar__next" @click="$emit('nextMonth')">>></span>
+          <span class="calendar__next" @click="$emit('next-month')">>></span>
         </div>
         <table class="calendar">
           <thead>
@@ -55,69 +49,62 @@
         </table>
       </div>
     `,
-    props: ['daysName', 'currentMonthName', 'createCurrentMonth', 'currentYear'],
-    data() {
-      return {
-
-      }
-    },
-    methods: {
-      array1() {
-        console.log(1)
-      }
-    }
+    props: ['daysName', 'currentMonthName', 'createCurrentMonth', 'currentYear', 'slideMonth']
   });
 
   Vue.component('comp-days-of-week', {
     template: `
       <th>{{ item }}</th>
     `,
-    props: ['item'],
-    methods: {
-      
-    }
+    props: ['item']
   });
 
-  new Vue({
+  new Vue({ 
     el: '#app',
     data() {
       return {
-        daysName: daysName,
-        monthsName: monthsName,
+        daysName,
+        monthsName,
+        getMonth: this.getCurrentMonth(),
+        getYear: this.getCurrentYear(),
         weekCount: 1,
-      }
-    },
-    computed: {
-      currentMonthName(prev, next) {
-        let currentMonthName = new Date();
-        if (next) {
-          return monthsName[currentMonthName.getMonth()-1];
-        } else if (prev) {
-          return monthsName[currentMonthName.getMonth()+1];
-        } else {
-          return monthsName[currentMonthName.getMonth()];
-        }
-        
-      },
-
-      currentMonth() {
-        let currentMonth = new Date();
-        return currentMonth.getMonth();
-      },
-
-      currentYear() {
-        let currentMonth = new Date();
-        return currentMonth.getFullYear();
-      },
-
-      prevMonth() {
-        console.log(1);
-        // this.createCurrentMonth(this.currentYear, this.currentMonth - 1);
+        currentMonth: this.createCurrentMonth(this.getCurrentYear(), this.getCurrentMonth()),
       }
     },
     methods: {
+      currentMonthName() {
+        return monthsName[this.getMonth];
+      },
+      
+      daysOfMonth(year, month) {
+        let currentDate = new Date();
+        // формируем объект дат для месяца
+        let date = new Date(year, month);
+        let monthDays = [];
+        while (date.getMonth() === month) {
+          if (mondayWeek) {
+            monthDays[date.getDate()-1] = {
+              number: date.getDate(),
+              day: daysName[date.getDay() - 1] ? date.getDay() - 1 : 6,
+              presentDay: date.getDate() === currentDate.getDate() && 
+                        month === currentDate.getMonth() && 
+                        year === currentDate.getFullYear() ? true : false,
+            };
+          } else {
+            monthDays[date.getDate()-1] = {
+              number: date.getDate(),
+              day: date.getDay(),
+              presentDay: date.getDate() === currentDate.getDate() && 
+                        month === currentDate.getMonth() && 
+                        year === currentDate.getFullYear() ? true : false,
+            };
+          }
+          date.setDate(date.getDate() + 1);
+        }
+        return monthDays;
+      },
+
       createCurrentMonth(year, month) {
-        console.log(1);
         let previousMonth = this.daysOfMonth(year, month-1).reverse();
         let currentMonth = this.daysOfMonth(year, month);
         let nextMonth = this.daysOfMonth(year, month+1);
@@ -147,36 +134,7 @@
           nextMonth[key].gray = true;
           result.push(nextMonth[key]);
         }
-
         return this.monthToWeeks(result);
-      },
-      
-      daysOfMonth(year, month) {
-        let currentDate = new Date();
-        // формируем объект дат для месяца
-        let date = new Date(year, month);
-        let monthDays = [];
-        while (date.getMonth() === month) {
-          if (mondayWeek) {
-            monthDays[date.getDate()-1] = {
-              number: date.getDate(),
-              day: daysName[date.getDay() - 1] ? date.getDay() - 1 : 6,
-              currentDay: date.getDate() === currentDate.getDate() && 
-                        month === currentDate.getMonth() && 
-                        year === currentDate.getFullYear() ? true : false,
-            };
-          } else {
-            monthDays[date.getDate()-1] = {
-              number: date.getDate(),
-              day: date.getDay(),
-              currentDay: date.getDate() === currentDate.getDate() && 
-                        month === currentDate.getMonth() && 
-                        year === currentDate.getFullYear() ? true : false,
-            };
-          }
-          date.setDate(date.getDate() + 1);
-        }
-        return monthDays;
       },
 
       monthToWeeks(month) {
@@ -197,13 +155,39 @@
         }
         return resultMonth;
       },
+
+      getCurrentMonth() {
+        let currentMonth = new Date();
+        return currentMonth.getMonth();
+      },
+
+      getCurrentYear() {
+        let currentMonth = new Date();
+        return currentMonth.getFullYear();
+      },
+
+      slideMonth(next) {
+        if (next) {
+          if (this.getMonth > 10) {
+            this.getMonth = 0;
+            this.getYear++;
+            this.currentMonth = this.createCurrentMonth(this.getYear, this.getMonth);
+          } else {
+            this.currentMonth = this.createCurrentMonth(this.getYear, this.getMonth+1);
+            this.getMonth++;
+          }
+        } else {
+          if (this.getMonth < 1) {
+            this.getMonth = 11;
+            this.getYear--;
+            this.currentMonth = this.createCurrentMonth(this.getYear, this.getMonth);
+          } else {
+            this.currentMonth = this.createCurrentMonth(this.getYear, this.getMonth-1);
+            this.getMonth--;
+          }
+        }
+      }
     }
   });
 
 }());
-
-
-
-// if (Object.keys(monthDays).length % 7 === 3) {
-//   this.weekCount++;
-// }
