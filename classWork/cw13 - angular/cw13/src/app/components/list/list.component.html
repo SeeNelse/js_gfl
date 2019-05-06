@@ -1,0 +1,10 @@
+<h1>{{ title }}</h1>
+<span>Count: {{ count_items }}</span>
+<ul>
+  <li *ngFor='let item of list; let i = index'>{{ i }}. <button (click)=removeItem(i)>X</button> {{ item }}</li>
+</ul>
+
+<div>
+  <input type="text" [(ngModel)]="new_item" >
+  <button (click)="addItem()" >Add</button>
+</div>
