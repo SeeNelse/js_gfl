@@ -106,14 +106,15 @@
 
       createCurrentMonth(year, month) {
         let previousMonth = this.daysOfMonth(year, month-1).reverse();
-        if (!previousMonth.length) {
-          previousMonth = this.daysOfMonth(year-1, 11).reverse();
-          console.log(year, month);
-          console.log(previousMonth);
-        }
         let currentMonth = this.daysOfMonth(year, month);
         let nextMonth = this.daysOfMonth(year, month+1);
         let result = [];
+        if (!previousMonth.length) {
+          previousMonth = this.daysOfMonth(year-1, 11).reverse();
+        }
+        if (!nextMonth.length) {
+          nextMonth = this.daysOfMonth(year+1, 0);
+        }
 
         for (let key in previousMonth) {
           if (previousMonth[key].day === 6) {
