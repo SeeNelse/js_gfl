@@ -106,6 +106,11 @@
 
       createCurrentMonth(year, month) {
         let previousMonth = this.daysOfMonth(year, month-1).reverse();
+        if (!previousMonth.length) {
+          previousMonth = this.daysOfMonth(year-1, 11).reverse();
+          console.log(year, month);
+          console.log(previousMonth);
+        }
         let currentMonth = this.daysOfMonth(year, month);
         let nextMonth = this.daysOfMonth(year, month+1);
         let result = [];
