@@ -1,41 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { ShareService } from '../../services/share.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
-  providers: [ShareService]
 })
 export class ListComponent implements OnInit {
-
-  title = 'Hello agnular';
-  new_item = '';
-
+  title ='Hello Angular';
+  new_item = "";
   constructor(private ss: ShareService) {}
-
+  
   ngOnInit() {
   }
 
-  addItem() {
-    this.ss.add(this.new_item);
-    this.new_item = '';
+  add(){
+    this.list.push(this.new_item);
+    localStorage.listCw13 = JSON.stringify(this.list);
+    this.new_item = "";
   }
 
-  removeItem(index) {
-    this.ss.list.splice(index, 1);
+  get count_items(){
+    return this.list.length;
   }
 
-  get count_items() {
-    return this.ss.list.length;
+  remove(index){
+    this.list.splice(index, 1);
   }
 
   get list() {
     return this.ss.list;
-  }
-
-  set list(val) {
-    console.log(val)
   }
 
 }
