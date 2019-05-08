@@ -1,0 +1,11 @@
+<h1>{{ title }}</h1>
+<ol>
+  <ng-container *ngFor="let item of products; let i = index;" >
+    <li *ngIf='item.count'>
+      <button (click)='remove(i)'>-</button>
+      {{ item.name }} - {{ item.count }} - ${{ item.price * item.count }}
+    </li>
+  </ng-container>
+</ol>
+
+<h3>Total: {{ total() }}</h3>

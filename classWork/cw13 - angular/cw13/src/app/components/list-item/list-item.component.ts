@@ -7,33 +7,18 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ListItemComponent implements OnInit {
 
-  @Input() item = '';
-  @Output() itemChange = new EventEmitter();
+  @Input() name = '';
+  @Input() price = '';
   @Input() index = 0;
-  @Output() remove = new EventEmitter();
-
-  edit_mode = false;
+  @Output() add = new EventEmitter();
 
   constructor() { }
 
+  addItem() {
+    this.add.emit(this.index);
+  }
+
   ngOnInit() {
-  }
-
-  reset() {
-    this.itemChange.emit('');
-  }
-
-  remove2() {
-    this.remove.emit(this.index);
-  }
-
-  edit() {
-    this.edit_mode = true;
-  }
-
-  apply() {
-    this.edit_mode = false;
-    this.itemChange.emit(this.item);
   }
 
 }

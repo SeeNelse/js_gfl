@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { ShareService } from '../../services/share.service';
 
 @Component({
@@ -7,29 +7,20 @@ import { ShareService } from '../../services/share.service';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  title ='Hello Angular';
-  new_item = "";
+  title ='Products';
+
   constructor(private ss: ShareService) {}
   
   ngOnInit() {
   }
 
-  add(){
-    this.list.push(this.new_item);
-    localStorage.listCw13 = JSON.stringify(this.list);
-    this.new_item = "";
+  add(index) {
+    this.products[index].count++;
+    localStorage.shopCw14 = JSON.stringify(this.products);
   }
 
-  get count_items(){
-    return this.list.length;
-  }
-
-  remove(index){
-    this.list.splice(index, 1);
-  }
-
-  get list() {
-    return this.ss.list;
+  get products () {
+    return this.ss.products;
   }
 
 }
