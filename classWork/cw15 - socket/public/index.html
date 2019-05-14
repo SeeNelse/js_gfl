@@ -9,16 +9,17 @@
 <body>
     <div id="chat">
         <div>
-            {{ memory }}
         </div>
         <ul>
-            <li v-for="message in messages">{{ message }}</li>
+            <li v-for="message in messages">{{ message.user }}: {{ message.message }}</li>
         </ul>
-        <div>{{ online }}</div>
-        <input type="text" v-model="newMessage">
-        <button @click="send">Send</button>
-        <button @click="disconnect">Disconnect</button>
-        <button @click="connect">Connect</button>
+        <div>Online: {{ online ? 'on' : 'off' }}</div>
+        <input type="text" v-if='online' v-model="newMessage" v-on:keyup.enter="send">
+        <button @click="send" v-if='online'>Send</button>
+        <button @click="disconnect" v-if='online'>Disconnect</button>
+
+        <input type="text" placeholder="Enter name" v-if='!online' v-model="userName" v-on:keyup.enter="connect">
+        <button @click="connect" v-if='!online'>Connect</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
@@ -30,34 +31,28 @@
                 return {
                     messages: [],
                     newMessage: '',
+                    userName: '',
                     online: false,
-                    memory: {}
                 }
-            },
-            created() {
-                this.connect();
             },
             destroyed() {
                 this.ws.close();
             },
             methods: {
                 send() {
-                    this.ws.send(this.newMessage);
+                    this.ws.send(JSON.stringify({user: this.userName, message: this.newMessage}));
                     this.newMessage = '';
                 },
                 messageHandler(message) {
                     try {
-                        // console.log(message.data)
                         let data = JSON.parse(message.data);
                         switch(data.type) {
                             case 'messages':
                                 this.$set(this, 'messages', data.messages);
                                 break;
                             case 'message':
-                                this.messages.push(data.message);
+                                this.messages.push(JSON.parse(data.message));
                                 break;
-                            case 'memoryInfo':
-                                this.$set(this, 'memory', data.data)
                         }
                     } catch (e) {console.error(e)}
                 },

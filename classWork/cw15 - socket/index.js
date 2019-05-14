@@ -22,12 +22,11 @@ var counter = 0;
 var wss = new ws.Server({port: 5555});
 
 wss.on('connection', (wsc, request) => {
-    //console.log(request.headers.cookie);
     let id = counter++;
     clients[id] = wsc;
 
     wsc.on('message', (message) => {
-        messages.push(message);
+        messages.push(JSON.parse(message));
         for (let cid in clients) {
             let client = clients[cid];
             client.send(JSON.stringify({
@@ -35,14 +34,6 @@ wss.on('connection', (wsc, request) => {
                 message
             }));
         }
-        /* 
-            wss.clients.forEach((client) => {
-                client.send(JSON.stringify({
-                    type: 'message',
-                    message
-                }));
-            })
-        */
     });
 
     wsc.on('close', () => {
@@ -56,21 +47,6 @@ wss.on('connection', (wsc, request) => {
         type: 'messages',
         messages
     }));
-
-
-    /* let timer = setInterval(() => {
-        try {
-            wsc.send(JSON.stringify({
-                type: 'memoryInfo',
-                data: process.memoryUsage()
-            }))
-        } catch (e) {   }
-    }, 4); */
-
-    // Example disconnect
-    /* setTimeout(() => {
-        wsc.close()
-    }, 5000) */
 })
 
 setInterval(() => {
