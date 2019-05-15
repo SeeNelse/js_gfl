@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CW15 - Game</title>
+</head>
+<body>
+  <style>
+    .player {
+      width: 50px;
+      height: 50px;
+      padding: 3px;
+      position: absolute;
+    }
+  </style>
+  <h1>Hello HTML</h1>
+  <!-- <span id="message"></span> -->
+  <div id="app">
+    <div class="player" v-for='player in players' :key='player.id' :style="{
+      backgroundColor : player.color,
+      top: player.pos.y + 'px',
+      left: player.pos.x + 'px',
+    }">
+      {{ player.id }}</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+    let game = new Vue({
+      el: '#app',
+      data() {
+        return {
+          players: {},
+          online: false,
+        };
+      },
+      created() {
+        this.connect();
+
+        document.addEventListener('keydown', (event) => {
+          if (event.code.indexOf('Arrow') !== -1) {
+            let json_data = JSON.stringify({
+              type: 'move',
+              info: event.code.replace('Arrow', '')
+            });
+            this.wsClient.send(json_data);
+          }
+        });
+      },
+      methods: {
+        connect() {
+          this.wsClient = new WebSocket('ws://localhost:5555');
+
+          this.wsClient.addEventListener('open', () => {
+            this.online = true;
+          });
+          this.wsClient.addEventListener('close', () => {
+            this.online = false;
+          });
+          this.wsClient.addEventListener('error', () => {});
+          this.wsClient.addEventListener('message', (mes) => {
+            try {
+              let data = JSON.parse(mes.data);
+              this.messageHandler(data);
+            } catch (e) {
+              console.log(e);
+            }
+          });
+        },
+        messageHandler(message) {
+          switch(message.type) {
+            case 'new_player':
+              let player = message.info;
+              this.$set(this.players, player.id, player); // Добавление нового свойства в data:players
+              break;
+            case 'all_players':
+              let players = message.info;
+              this.$set(this, 'players', players);
+              break;
+            case 'remove_player':
+              let id = message.info;
+              this.$delete(this.players, id);
+              break;
+            case 'update_player':
+              let updPlayer = message.info;
+              this.$set(this.players, updPlayer.id, updPlayer);
+              break;
+          }
+        }
+      },
+    });
+  </script>
+  <script type="example">
+    let count = 0;
+    let wsClient = new WebSocket('ws://localhost:5555'); // Создание подключения к серверу
+    wsClient.addEventListener('message', (message) => { // Слушаем сообщение от сервера
+      document.querySelector('#message').innerHTML = count + ' ' + message.data;
+      count++;
+    });
+
+    setInterval(() => {
+      wsClient.send('ping');
+    }, 1000)
+  </script>
+</body>
+</html>
