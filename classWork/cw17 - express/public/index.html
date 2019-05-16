@@ -11,25 +11,63 @@
     .wrapper {
       display: flex;
       flex-direction: row;
+      width: 900px;
+      margin: 0 auto;
     }
     .wrapper > div {
       width: 50%;
     }
   </style>
-  <h1>Sup express</h1>
+  <h1>Hello express</h1>
   <div class="wrapper">
     <div>
       <h3>Post</h3>
-      <input type="text">
-      <button>Send</button>
+      <input type="text" class="post__input">
+      <button class="post__btn">Send</button>
     </div>
     <div>
       <h3>Get</h3>
-      <button>Get data</button>
+      <button class="get__btn">Get data</button>
       <ul class="get-list"></ul>
     </div>
   </div>
   <script>
+    let post_btn = document.querySelector('.post__btn');
+    let input = document.querySelector('.post__input');
+    let get_btn = document.querySelector('.get__btn');
+    let get_list = document.querySelector('.get-list');
+    
+    post_btn.onclick = () => {
+      let newData = input.value;
+
+      fetch('/post_data', { 
+        method: 'POST', 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: newData})
+      })
+      .then((res) => res.json())
+      .then((data) => {
+      });
+      input.value = '';
+    }
+
+
+    get_btn.onclick = () => {
+      fetch('/get_data.json')
+      .then((res) => res.json())
+      .then((data) => {
+        get_list.innerHTML = '';
+        data.dataInFront.forEach(el => {
+          let listElement = document.createElement("li");
+          listElement.innerText = el.data;
+          get_list.appendChild(listElement);
+        });
+      });
+      
+    }
     
   </script>
 </body>

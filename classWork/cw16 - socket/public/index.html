@@ -51,7 +51,7 @@
       },
       methods: {
         connect() {
-          this.wsClient = new WebSocket('ws://localhost:5555');
+          this.wsClient = new WebSocket('ws://192.168.1.100:5555');
 
           this.wsClient.addEventListener('open', () => {
             this.online = true;
