@@ -9,7 +9,7 @@ server.use(bodyParser.json());
 server.use('/', express.static('public'));
 
 server.get('/get_data.json', (req, resp) => { // fetch('/test.json').then((resp) => resp.json()).then((data) => { console.log(data); })
-  resp.json({dataInFront});
+  resp.json(dataInFront);
 });
 
 server.post('/post_data', (req, resp) => {

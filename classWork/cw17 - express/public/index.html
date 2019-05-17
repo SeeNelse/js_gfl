@@ -60,7 +60,7 @@
       .then((res) => res.json())
       .then((data) => {
         get_list.innerHTML = '';
-        data.dataInFront.forEach(el => {
+        data.forEach(el => {
           let listElement = document.createElement("li");
           listElement.innerText = el.data;
           get_list.appendChild(listElement);
