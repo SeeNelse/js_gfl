@@ -4,7 +4,8 @@ let bodyParser = require('body-parser');
 let server = express();
 let dataInFront = [];
 
-server.use(bodyParser.json());
+// server.use(bodyParser.json());
+server.use(bodyParser.text());
 
 server.use('/', express.static('public'));
 

@@ -41,12 +41,8 @@
       let newData = input.value;
 
       fetch('/post_data', { 
-        method: 'POST', 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({data: newData})
+        method: 'POST',
+        body: newData
       })
       .then((res) => res.json())
       .then((data) => {
